@@ -1,0 +1,16 @@
+{
+  "name": "soundcloud_visual",
+  "version": "0.0.0",
+  "description": "Visualize your music searches",
+  "main": "gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tim Killian",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "express": "~3.4.4",
+    "bower": "*"
+  }
+}
