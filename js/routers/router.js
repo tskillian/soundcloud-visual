@@ -6,6 +6,9 @@ APP.Router = Backbone.Router.extend({
 
 	firstRoute: function() {
 		console.log("firstRoute() was hit.");
+		APP.usersCollection = new APP.Users();
+		APP.usersCollection.create({name:"colin", phone: "234-234-2342"});
+		APP.usersCollection.create({name:"dan", address: "Seattle"});
 	},
 
 	secondRoute: function() {
