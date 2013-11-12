@@ -11,6 +11,7 @@
   "dependencies": {
     "grunt": "~0.4.1",
     "express": "~3.4.4",
-    "bower": "*"
+    "bower": "*",
+    "underscore": "*"
   }
 }
