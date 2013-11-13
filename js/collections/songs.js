@@ -1,6 +1,6 @@
 //This collection will represent all songs returned by the search
 
-APP.Users = Backbone.Collection.extend({
-	model: APP.song,
+APP.Songs = Backbone.Collection.extend({
+	model: APP.Song,
 	url: "/songs"
 })
