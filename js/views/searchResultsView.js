@@ -1,7 +1,7 @@
 APP.SearchResultsView = Backbone.View.extend({
-		tagName: "ul",
-		className: "song",
-		template: _.template('<form class="text-center"><input id="searchField" autofocus="true" type="text" placeholder="Search for music"><button id="searchButton" type="button" class="btn btn-primary">Submit</button></form><ul id="results"></ul>'),
+		tagName: "div",
+		className: "results",
+		template: _.template('<form class="text-center"><input id="searchField" autofocus="true" type="text" placeholder="Search for music"><button id="searchButton" type="button" class="btn btn-primary">Submit</button></form><div class="text-center" id="chart"></div>'),
 		render: function() {
 			this.$el.html(this.template({}));
 			// this.collection.each(function(model) {
@@ -13,19 +13,18 @@ APP.SearchResultsView = Backbone.View.extend({
 			// return this;
 		},
 		events: {
-			"click #searchButton": "search"
+			"click #searchButton": "search",
+			"click .node": "playSong"
 		},
 		search: function() {
-			console.log('worked');
 			SC.initialize({
 				client_id: 'ade20f5a5c1192b296a1eee39293292e'
 			});
 			var $search = $('#searchField').val();
-			//console.log(search);
 			SC.get('/tracks', {
 				q: $search
 			}, function(tracks) {
-				var result = {"name": "songs", "children": []};
+				var result = {"children": []};
 
 				$(tracks).each(function(index, track) {
 					if (track.favoritings_count > 10) {
@@ -40,8 +39,9 @@ APP.SearchResultsView = Backbone.View.extend({
 					}
 				});
 
+
 				// Create D3 bubble chart
-				var r = 960,
+				var r = 500,
 					format = d3.format(",d"),
 					fill = d3.scale.category20c();
 
@@ -65,6 +65,9 @@ APP.SearchResultsView = Backbone.View.extend({
 					.attr("class", "node")
 					.attr("transform", function(d) {
 						return "translate(" + d.x + "," + d.y + ")";
+					})
+					.attr("data-id", function(d) {
+						return d.id;
 					});
 
 				node.append("title")
@@ -98,7 +101,8 @@ APP.SearchResultsView = Backbone.View.extend({
 						else classes.push({
 							packageName: name,
 							className: node.name,
-							value: node.size
+							value: node.size,
+							id: node.id
 						});
 					}
 
@@ -108,14 +112,26 @@ APP.SearchResultsView = Backbone.View.extend({
 					};
 				}
 
+
+
+
 				// Create songs collection and populate with API call results
 				APP.songsCollection = new APP.Songs();
 				APP.songsCollection.add(result);
-				console.log(result);
+				//console.log(result);
 
 				//console.dir(APP.songsCollection);
+				d3.selectAll('.node').on('click', function(context) {
+					console.log(context.id);
+				});
 
 			});
+		},
+		playSong: function() {
+			//console.log(this);
+			//console.log($(this).id);
+			//router.navigate("#play", true);
+
 		}
 	}
 

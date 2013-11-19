@@ -2,7 +2,7 @@ APP.Router = Backbone.Router.extend({
 	routes: {
 		"first": "firstRoute",
 		"second": "secondRoute",
-		"songs": "songs",
+		"play": "play",
 		"": "songs"
 	},
 
@@ -28,15 +28,22 @@ APP.Router = Backbone.Router.extend({
 	},
 
 	songs: function() {
-		console.log('songs route was hit');
 		APP.songsCollection = new APP.Songs();
 		var newView = new APP.SearchResultsView({
 			collection: APP.songsCollection
 		});
-		console.log(newView);
 		newView.render();
 		$(document.body).append(newView.$el);
-		console.log(newView);
+	},
+
+	play: function() {
+		console.log('play route hit');
+		APP.song = new APP.Song();
+		var playView = new APP.PlayView({
+			model: APP.song
+		});
+		playView.render();
+		$(document.body).append(playView.$el);
 	}
 });
 
