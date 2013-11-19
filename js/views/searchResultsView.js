@@ -122,7 +122,17 @@ APP.SearchResultsView = Backbone.View.extend({
 
 				//console.dir(APP.songsCollection);
 				d3.selectAll('.node').on('click', function(context) {
-					console.log(context.id);
+					var songID = context.id;
+					console.log('hit render function on playView');
+
+					$(document.body).append("<div id='player'></div>");
+					SC.initialize({
+						client_id: 'ade20f5a5c1192b296a1eee39293292e'
+					});
+					SC.get('/tracks/'+songID, function(track) {
+						SC.oEmbed(track.permalink_url, document.getElementById('player'));
+					});
+					
 				});
 
 			});
