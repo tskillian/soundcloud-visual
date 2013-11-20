@@ -1,20 +1,15 @@
 APP.SearchResultsView = Backbone.View.extend({
 		tagName: "div",
-		className: "results",
-		template: _.template('<form class="text-center"><input id="searchField" autofocus="true" type="text" placeholder="Search for music"><button id="searchButton" type="button" class="btn btn-primary">Submit</button></form><div class="text-center" id="chart"></div>'),
+		className: "text-center",
+		template: _.template('<input id="searchField" autofocus="true" type="text" placeholder="Search for music"><button id="searchButton" type="button" class="btn btn-primary">Submit</button><div class="text-center" id="chart"></div>'),
 		render: function() {
 			this.$el.html(this.template({}));
-			// this.collection.each(function(model) {
-			//	APP.songView = new APP.SongView({
-			//		model: model
-			//	});
-			//	this.$el.append(APP.songView.render().el);
-			// }, this);
-			// return this;
+
 		},
 		events: {
+			"foo": "search",
 			"click #searchButton": "search",
-			"click .node": "playSong"
+			"keypress #searchField": "searchOnEnter"
 		},
 		search: function() {
 			SC.initialize({
@@ -132,16 +127,21 @@ APP.SearchResultsView = Backbone.View.extend({
 					SC.get('/tracks/'+songID, function(track) {
 						SC.oEmbed(track.permalink_url, document.getElementById('player'));
 					});
-					
+
 				});
 
 			});
 		},
-		playSong: function() {
-			//console.log(this);
-			//console.log($(this).id);
-			//router.navigate("#play", true);
+		testTrigger: function() {
+			console.log('trigger worked');
 
+		},
+		searchOnEnter: function(e) {
+			if (e.which !== 13) {
+				return;
+			}
+			this.search();
+			$('#searchField').val("");
 		}
 	}
 
