@@ -1,7 +1,6 @@
 var express = require("express");
 var path = require("path");
 var _ = require("underscore");
-var flareData = require("./flareData.js");
 
 var app = express()
 			.use(express.static(__dirname,
