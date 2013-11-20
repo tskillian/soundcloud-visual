@@ -16,6 +16,8 @@ APP.SearchResultsView = Backbone.View.extend({
 				client_id: 'ade20f5a5c1192b296a1eee39293292e'
 			});
 			var $search = $('#searchField').val();
+			$('#searchField').val("");
+
 			SC.get('/tracks', {
 				q: $search
 			}, function(tracks) {
@@ -35,7 +37,11 @@ APP.SearchResultsView = Backbone.View.extend({
 				});
 
 
-				// Create D3 bubble chart
+				// Create D3 bubble chart, if there's already a chart, remove it first
+				if ($('.bubble')) {
+					$('.bubble').remove();
+				}
+
 				var r = 500,
 					format = d3.format(",d"),
 					fill = d3.scale.category20c();
@@ -113,9 +119,7 @@ APP.SearchResultsView = Backbone.View.extend({
 				// Create songs collection and populate with API call results
 				APP.songsCollection = new APP.Songs();
 				APP.songsCollection.add(result);
-				//console.log(result);
 
-				//console.dir(APP.songsCollection);
 				d3.selectAll('.node').on('click', function(context) {
 					var songID = context.id;
 					console.log('hit render function on playView');
@@ -141,7 +145,7 @@ APP.SearchResultsView = Backbone.View.extend({
 				return;
 			}
 			this.search();
-			$('#searchField').val("");
+
 		}
 	}
 
