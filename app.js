@@ -10,13 +10,6 @@ var app = express()
 			.use(express.bodyParser());
 
 
-
-
-app.get("/flaredata", function(req, res) {
-	res.json(flareData.data);
-});
-
-
 app.get("/songs", function(req, res) {
 	res.json(data);
 });
