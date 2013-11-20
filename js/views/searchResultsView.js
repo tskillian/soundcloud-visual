@@ -56,6 +56,11 @@ APP.SearchResultsView = Backbone.View.extend({
 					.attr("height", r)
 					.attr("class", "bubble");
 
+				var tip = d3.tip().attr('class', 'd3-tip').html(function(d) { 
+					return "<strong>Name: </strong> <span style='color:red'>" + d.name
+					+ "</span>";});
+				
+				vis.call(tip);
 
 				var node = vis.selectAll("g.node")
 					.data(bubble.nodes(classes(result))
@@ -69,7 +74,9 @@ APP.SearchResultsView = Backbone.View.extend({
 					})
 					.attr("data-id", function(d) {
 						return d.id;
-					});
+					})
+					.on('mouseover', tip.show)
+					.on('mouseout', tip.show);
 
 				node.append("title")
 					.text(function(d) {
@@ -90,6 +97,8 @@ APP.SearchResultsView = Backbone.View.extend({
 					.text(function(d) {
 						return d.className.substring(0, d.r / 3);
 					});
+
+				
 
 				// Returns a flattened hierarchy containing all leaf nodes under the root.
 				function classes(root) {
@@ -121,14 +130,13 @@ APP.SearchResultsView = Backbone.View.extend({
 				APP.songsCollection.add(result);
 
 				d3.selectAll('.node').on('click', function(context) {
-					var songID = context.id;
 					console.log('hit render function on playView');
 
 					$(document.body).append("<div id='player'></div>");
 					SC.initialize({
 						client_id: 'ade20f5a5c1192b296a1eee39293292e'
 					});
-					SC.get('/tracks/'+songID, function(track) {
+					SC.get('/tracks/' + context.id, function(track) {
 						SC.oEmbed(track.permalink_url, document.getElementById('player'));
 					});
 
