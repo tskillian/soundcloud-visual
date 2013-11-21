@@ -75,7 +75,7 @@ APP.SearchResultsView = Backbone.View.extend({
 						return d.id;
 					})
 					.on('mouseover', tip.show)
-					.on('mouseout', tip.show);
+					.on('mouseout', tip.hide);
 
 				node.append("title")
 					.text(function(d) {
