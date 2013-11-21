@@ -58,7 +58,8 @@ APP.SearchResultsView = Backbone.View.extend({
 					.attr("class", "bubble");
 
 				var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
-					return "<div class='toolTipName'>" + d.className + "</div><div class='toolTipGenre'>" + d.genre + "</div><div class='toolTipViews'" + d.views + "</div><div class='likes'>" + d.value + "</div>";});
+					console.log(d);
+					return "<div class='toolTipName'>" + d.className + "</div><div class='toolTipGenre'>" + d.genre + "</div><div class='toolTipViews'" + d.views + "</div><div class='likes'><i class='fa fa-heart'></i>" + d.value + "</div>";});
 				vis.call(tip);
 
 				var node = vis.selectAll("g.node")
@@ -81,13 +82,14 @@ APP.SearchResultsView = Backbone.View.extend({
 					.text(function(d) {
 						return d.className + ": " + format(d.value);
 					});
+					
 
 				node.append("circle")
 					.attr("r", function(d) {
 						return d.r;
 					})
 					.attr('opacity', function(d) {
-						return d.proportion + .5;
+						return d.proportion + .3;
 					})
 					.attr("class", "circle")
 					.style("fill", function(d) {
@@ -99,7 +101,8 @@ APP.SearchResultsView = Backbone.View.extend({
 					.attr("dy", ".3em")
 					.text(function(d) {
 						return d.className.substring(0, d.r / 3);
-					});
+					})
+					.style("pointer-events", "none");
 
 				
 

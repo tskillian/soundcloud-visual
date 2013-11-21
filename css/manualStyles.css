@@ -1,22 +1,74 @@
 
-
+.fa .fa-heart {
+	color: red;
+}
 
 .node {
 	font: 10px sans-serif;
 }
 
 .d3-tip {
-    line-height: 1;
-    font-weight: bold;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    border-radius: 2px;
-  }
+line-height: 1;
+font-weight: bold;
+padding: 12px 15px 15px;
+background: rgba(255, 255, 255, 0.9);
+color: #444;
+border: 1px solid #E0E0E0;
+border-radius: 7px;
+max-width: 350px;
+}
+
 
   .toolTipName {
   	font-size: 20px;
+  	margin-bottom: 10px;
   }
+
+  .node:hover {
+  	cursor: pointer;
+  }
+
+#searchField {
+	padding: 7px 10px;
+	width: 320px;
+	height: 40px;
+	border: 1px solid #CCC;
+	border-bottom-color: #A2A2A2;
+	border-right-color: #A2A2A2;
+	margin-right: 10px;
+}
+
+ #searchButton {
+padding: 6px 22px;
+}
+
+.toolTipName {
+font-size: 20px;
+margin-bottom: 8px;
+font-family: "Helvetica Neue", Helvetica, sans-serif;
+font-weight: 200;
+}
+
+.toolTipGenre {
+color: #757575;
+font-weight: normal;
+font-size: 12px;
+float: right;
+margin-top: 0;
+text-transform: uppercase;
+}
+
+.toolTipViews {
+margin-bottom: 5px;
+margin-right: 10px;
+}
+
+/*    .node:hover {
+    fill: #bbb;
+    cursor: pointer;
+    opacity: 1;
+  }*/
+
 /*
   .d3-tip text {
     fill: black;
@@ -32,11 +84,7 @@
     stroke-width: 1px;
   }
 
-  .node:hover {
-    fill: #bbb;
-    stroke: #999;
-    cursor: pointer;
-  }
+
 
   .rule {
     stroke-width: 1px;
