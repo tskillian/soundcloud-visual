@@ -56,10 +56,9 @@ APP.SearchResultsView = Backbone.View.extend({
 					.attr("height", r)
 					.attr("class", "bubble");
 
-				var tip = d3.tip().attr('class', 'd3-tip').html(function(d) { 
-					return "<strong>Name: </strong> <span style='color:red'>" + d.name
-					+ "</span>";});
-				
+				var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+					return "<strong>Name: </strong> <span style='color:red'>" + d.className + "</span>";
+				});
 				vis.call(tip);
 
 				var node = vis.selectAll("g.node")
@@ -112,7 +111,10 @@ APP.SearchResultsView = Backbone.View.extend({
 							packageName: name,
 							className: node.name,
 							value: node.size,
-							id: node.id
+							id: node.id,
+							genre: node.genre,
+							views: node.views,
+							rating: 100*(node.size/node.views)
 						});
 					}
 
