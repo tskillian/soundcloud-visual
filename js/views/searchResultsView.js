@@ -17,6 +17,7 @@ APP.SearchResultsView = Backbone.View.extend({
 			});
 			var $search = $('#searchField').val();
 			$('#searchField').val("");
+			var totalLikes = 0;
 
 			SC.get('/tracks', {
 				q: $search
@@ -33,6 +34,7 @@ APP.SearchResultsView = Backbone.View.extend({
 							comments: track.comment_count,
 							genre: track.genre
 						});
+						totalLikes += track.favoritings_count;
 					}
 				});
 
@@ -41,7 +43,6 @@ APP.SearchResultsView = Backbone.View.extend({
 				if ($('.bubble')) {
 					$('.bubble').remove();
 				}
-
 				var r = 500,
 					format = d3.format(",d"),
 					fill = d3.scale.category20c();
@@ -57,7 +58,7 @@ APP.SearchResultsView = Backbone.View.extend({
 					.attr("class", "bubble");
 
 				var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
-					return "<div>Name: " + d.className + "</div><div>Genre: " + d.genre + "</div><div>Likes: " + d.value + "</div>";});
+					return "<div class='toolTipName'>" + d.className + "</div><div class='genre'>" + d.genre + "</div><div class='views'" + d.views + "</div><div class='likes'>" + d.value + "</div>";});
 				vis.call(tip);
 
 				var node = vis.selectAll("g.node")
@@ -85,6 +86,10 @@ APP.SearchResultsView = Backbone.View.extend({
 					.attr("r", function(d) {
 						return d.r;
 					})
+					.attr('opacity', function(d) {
+						return d.proportion + .5;
+					})
+					.attr("class", "circle")
 					.style("fill", function(d) {
 						return fill(d.packageName);
 					});
@@ -113,7 +118,7 @@ APP.SearchResultsView = Backbone.View.extend({
 							id: node.id,
 							genre: node.genre,
 							views: node.views,
-							rating: 100*(node.size/node.views)
+							proportion: node.size/totalLikes
 						});
 					}
 
