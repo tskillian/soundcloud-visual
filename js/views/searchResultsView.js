@@ -58,7 +58,7 @@ APP.SearchResultsView = Backbone.View.extend({
 					.attr("class", "bubble");
 
 				var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
-					return "<div class='toolTipName'>" + d.className + "</div><div class='genre'>" + d.genre + "</div><div class='views'" + d.views + "</div><div class='likes'>" + d.value + "</div>";});
+					return "<div class='toolTipName'>" + d.className + "</div><div class='toolTipGenre'>" + d.genre + "</div><div class='toolTipViews'" + d.views + "</div><div class='likes'>" + d.value + "</div>";});
 				vis.call(tip);
 
 				var node = vis.selectAll("g.node")

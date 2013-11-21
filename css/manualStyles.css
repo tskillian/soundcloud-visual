@@ -1,4 +1,6 @@
-/*
+
+
+
 .node {
 	font: 10px sans-serif;
 }
@@ -12,8 +14,12 @@
     border-radius: 2px;
   }
 
+  .toolTipName {
+  	font-size: 20px;
+  }
+/*
   .d3-tip text {
-    fill: #fff;
+    fill: black;
     font-size: 6px;
     stroke: none;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
