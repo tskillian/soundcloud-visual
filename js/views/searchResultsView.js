@@ -23,7 +23,7 @@ APP.SearchResultsView = Backbone.View.extend({
 			if ($('.d3-tip')) {
 				$('.d3-tip').remove();
 			}
-			// Spinner settings
+			// Spinner settings & initiation
 			var opts = {
 			lines: 13, // The number of lines to draw
 			length: 20, // The length of each line
@@ -46,7 +46,7 @@ APP.SearchResultsView = Backbone.View.extend({
 			var target = document.getElementById('chart');
 			var spinner = new Spinner(opts).spin(target);
 			
-			// Soundcloud API call
+			// Soundcloud API call based on search input
 			SC.initialize({
 				client_id: 'ade20f5a5c1192b296a1eee39293292e'
 			});
@@ -91,6 +91,7 @@ APP.SearchResultsView = Backbone.View.extend({
 
 				spinner.stop();
 
+				// create tooltip for nodes
 				var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
 					return "<div class='toolTipName'>" + d.className + "</div><div class='toolTipGenre'>" + d.genre + "</div><div class='toolTipViews'" + d.views + "</div><div class='likes'><i class='fa fa-heart'></i>" + d.value + "</div>";});
 				vis.call(tip);
@@ -165,12 +166,7 @@ APP.SearchResultsView = Backbone.View.extend({
 				}
 
 
-
-
-				// Create songs collection and populate with API call results
-				APP.songsCollection = new APP.Songs();
-				APP.songsCollection.add(result);
-
+				// Add Soundcloud player on circle click
 				d3.selectAll('.node').on('click', function(context) {
 
 					$(document.body).append("<div id='player'></div>");
