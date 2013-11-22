@@ -7,11 +7,44 @@ APP.SearchResultsView = Backbone.View.extend({
 
 		},
 		events: {
-			"foo": "search",
 			"click #searchButton": "search",
 			"keypress #searchField": "searchOnEnter"
 		},
 		search: function() {
+
+			// Remove bubble chart/Soundcloud player if there already is one
+
+			if ($('.bubble')) {
+				$('.bubble').remove();
+			}
+			if($('#player')) {
+				$('#player').remove();
+			}
+			// Spinner settings
+			var opts = {
+			lines: 13, // The number of lines to draw
+			length: 20, // The length of each line
+			width: 10, // The line thickness
+			radius: 30, // The radius of the inner circle
+			corners: 1, // Corner roundness (0..1)
+			rotate: 0, // The rotation offset
+			direction: 1, // 1: clockwise, -1: counterclockwise
+			color: '#000', // #rgb or #rrggbb or array of colors
+			speed: 1, // Rounds per second
+			trail: 60, // Afterglow percentage
+			shadow: false, // Whether to render a shadow
+			hwaccel: false, // Whether to use hardware acceleration
+			className: 'spinner', // The CSS class to assign to the spinner
+			zIndex: 2e9, // The z-index (defaults to 2000000000)
+			top: 'auto', // Top position relative to parent in px
+			left: 'auto' // Left position relative to parent in px
+			};
+
+			var target = document.getElementById('chart');
+			var spinner = new Spinner(opts).spin(target);
+			spinner.spin(target);
+			
+			// Soundcloud API call
 			SC.initialize({
 				client_id: 'ade20f5a5c1192b296a1eee39293292e'
 			});
@@ -39,10 +72,7 @@ APP.SearchResultsView = Backbone.View.extend({
 				});
 
 
-				// Create D3 bubble chart, if there's already a chart, remove it first
-				if ($('.bubble')) {
-					$('.bubble').remove();
-				}
+				// Create D3 bubble chart
 				var r = 500,
 					format = d3.format(",d"),
 					fill = d3.scale.category20c();
@@ -57,8 +87,9 @@ APP.SearchResultsView = Backbone.View.extend({
 					.attr("height", r)
 					.attr("class", "bubble");
 
+				spinner.stop();
+
 				var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
-					console.log(d);
 					return "<div class='toolTipName'>" + d.className + "</div><div class='toolTipGenre'>" + d.genre + "</div><div class='toolTipViews'" + d.views + "</div><div class='likes'><i class='fa fa-heart'></i>" + d.value + "</div>";});
 				vis.call(tip);
 
@@ -89,7 +120,7 @@ APP.SearchResultsView = Backbone.View.extend({
 						return d.r;
 					})
 					.attr('opacity', function(d) {
-						return d.proportion + .3;
+						return d.proportion + 0.3;
 					})
 					.attr("class", "circle")
 					.style("fill", function(d) {
@@ -139,7 +170,6 @@ APP.SearchResultsView = Backbone.View.extend({
 				APP.songsCollection.add(result);
 
 				d3.selectAll('.node').on('click', function(context) {
-					console.log('hit render function on playView');
 
 					$(document.body).append("<div id='player'></div>");
 					SC.initialize({
@@ -153,10 +183,7 @@ APP.SearchResultsView = Backbone.View.extend({
 
 			});
 		},
-		testTrigger: function() {
-			console.log('trigger worked');
 
-		},
 		searchOnEnter: function(e) {
 			if (e.which !== 13) {
 				return;
