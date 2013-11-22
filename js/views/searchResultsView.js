@@ -1,7 +1,5 @@
 APP.SearchResultsView = Backbone.View.extend({
-		tagName: "div",
-		className: "text-center",
-		template: _.template('<input id="searchField" autofocus="true" type="text" placeholder="Search for music"><button id="searchButton" type="button" class="btn btn-primary">Submit</button><div class="text-center" id="chart"></div>'),
+		template: _.template('<div class="text-center"><input id="searchField" autofocus="true" type="text" placeholder="Search for music"><button id="searchButton" type="button" class="btn btn-primary">Submit</button></div><div class="text-center" id="chart"></div>'),
 		render: function() {
 			this.$el.html(this.template({}));
 
@@ -53,6 +51,9 @@ APP.SearchResultsView = Backbone.View.extend({
 			var $search = $('#searchField').val();
 			$('#searchField').val("");
 			var totalLikes = 0;
+			var genres = {};
+			var ranColors = ['CC3220' ,'25CC7C', 'Bisque', 'FF7B4E', '466999', '0EF2FF',
+							'2068CC','4A9973','F855FF','9725CC','AECC2B','91996D','FFE54F','8FA2FF','2B71CC'];
 
 			SC.get('/tracks', {
 				q: $search
@@ -69,15 +70,24 @@ APP.SearchResultsView = Backbone.View.extend({
 							comments: track.comment_count,
 							genre: track.genre
 						});
-						totalLikes += track.favoritings_count;
+
+						// Assign genres a color
+						if (!(track.genre in genres)) {
+							console.log(ranColors);
+							if (ranColors.length > 0) {
+								genres[track.genre] = ranColors.pop();
+							} else {
+								console.log('reach else');
+								genres[track.genre] = '7EA2CC'
+							}
+						}
 					}
 				});
-
 
 				// Create D3 bubble chart
 				var r = 500,
 					format = d3.format(",d"),
-					fill = d3.scale.category20c();
+					fill = 'd3.scale.category20c()';
 
 				var bubble = d3.layout.pack()
 					.sort(null)
@@ -122,12 +132,9 @@ APP.SearchResultsView = Backbone.View.extend({
 					.attr("r", function(d) {
 						return d.r;
 					})
-					.attr('opacity', function(d) {
-						return d.proportion + 0.3;
-					})
 					.attr("class", "circle")
 					.style("fill", function(d) {
-						return fill(d.packageName);
+						return genres[d.genre];
 					});
 
 				node.append("text")
