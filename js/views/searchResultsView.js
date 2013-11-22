@@ -53,7 +53,7 @@ APP.SearchResultsView = Backbone.View.extend({
 			var totalLikes = 0;
 			var genres = {};
 			var ranColors = ['CC3220' ,'25CC7C', 'Bisque', 'FF7B4E', '466999', '0EF2FF',
-							'2068CC','4A9973','F855FF','9725CC','AECC2B','91996D','FFE54F','8FA2FF','2B71CC'];
+							'2068CC','4A9973','F855FF','AECC2B','91996D','FFE54F','8FA2FF','2B71CC'];
 
 			SC.get('/tracks', {
 				q: $search
