@@ -43,9 +43,8 @@ APP.SearchResultsView = Backbone.View.extend({
 			left: 'auto' // Left position relative to parent in px
 			};
 
-			var target = document.getElementById('spinner-holder');
+			var target = document.getElementById('chart');
 			var spinner = new Spinner(opts).spin(target);
-			spinner.spin(target);
 			
 			// Soundcloud API call
 			SC.initialize({
