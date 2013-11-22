@@ -12,13 +12,16 @@ APP.SearchResultsView = Backbone.View.extend({
 		},
 		search: function() {
 
-			// Remove bubble chart/Soundcloud player if there already is one
+			// Remove bubble chart/D3 tooltip/Soundcloud player if there already is one
 
 			if ($('.bubble')) {
 				$('.bubble').remove();
 			}
-			if($('#player')) {
+			if ($('#player')) {
 				$('#player').remove();
+			}
+			if ($('.d3-tip')) {
+				$('.d3-tip').remove();
 			}
 			// Spinner settings
 			var opts = {
@@ -40,7 +43,7 @@ APP.SearchResultsView = Backbone.View.extend({
 			left: 'auto' // Left position relative to parent in px
 			};
 
-			var target = document.getElementById('chart');
+			var target = document.getElementById('spinner-holder');
 			var spinner = new Spinner(opts).spin(target);
 			spinner.spin(target);
 			
